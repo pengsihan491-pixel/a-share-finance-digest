@@ -1,0 +1,18 @@
+{
+  "tradeDate": "auto",
+  "timezone": "Asia/Shanghai",
+  "output": "./data/daily.json",
+  "sources": [
+    {
+      "name": "market-notes",
+      "type": "file",
+      "path": "./data/manual-notes.json",
+      "category": "market"
+    }
+  ],
+  "summary": {
+    "provider": "template",
+    "watchSectors": ["AI应用", "半导体", "电力改革", "创新药", "机器人", "低空经济"],
+    "maxFeedItems": 60
+  }
+}

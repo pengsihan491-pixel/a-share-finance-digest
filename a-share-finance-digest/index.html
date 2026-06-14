@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A股情报中枢</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="global-header">
+        <div class="brand">
+          <span class="brand-mark">A</span>
+          <div>
+            <strong>A股情报中枢</strong>
+            <span>Market Intelligence</span>
+          </div>
+        </div>
+        <nav class="top-nav" aria-label="主导航">
+          <a class="active" href="#overview">总览</a>
+          <a href="#flash">快讯</a>
+          <a href="#sectors">板块</a>
+          <a href="#stocks">个股</a>
+          <a href="#calendar">日历</a>
+          <a href="#risk">风险</a>
+        </nav>
+        <div class="header-tools">
+          <button class="icon-button" id="refreshBtn" type="button" title="刷新数据" aria-label="刷新数据">↻</button>
+          <div class="data-status">
+            <span id="sourceStatus">数据加载中</span>
+            <strong id="lastUpdated">--</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="ticker-tape" aria-label="市场行情">
+        <div class="ticker-track" id="marketTicker"></div>
+      </section>
+
+      <main class="desktop-grid">
+        <div class="main-column">
+          <section class="hero-console" id="overview">
+          <div class="hero-copy">
+            <div class="section-kicker" id="tradeDate">交易日</div>
+            <h1 id="mainTheme">加载中</h1>
+            <p id="themeSummary"></p>
+            <div class="control-row" role="group" aria-label="板块筛选">
+              <button class="chip active" data-filter="all" type="button">全部</button>
+              <button class="chip" data-filter="bullish" type="button">强势</button>
+              <button class="chip" data-filter="watch" type="button">观察</button>
+            </div>
+          </div>
+          <div class="pulse-terminal">
+            <div class="terminal-head">
+              <span>Intraday Signal</span>
+              <strong id="pulseScore">--</strong>
+            </div>
+            <canvas id="marketPulse" width="580" height="230" aria-label="市场脉冲图"></canvas>
+            <div class="signal-matrix">
+              <div><span>Signal</span><strong id="signalLevel">--</strong></div>
+              <div><span>Breadth</span><strong id="breadthLevel">--</strong></div>
+              <div><span>Catalyst</span><strong id="catalystLevel">--</strong></div>
+              <div><span>Bias</span><strong id="riskBias">--</strong></div>
+            </div>
+          </div>
+          </section>
+
+          <section class="index-board">
+          <article class="index-card">
+            <span>上证指数</span>
+            <strong id="shIndex">--</strong>
+            <em id="shChange">--</em>
+          </article>
+          <article class="index-card">
+            <span>深证成指</span>
+            <strong id="szIndex">--</strong>
+            <em id="szChange">--</em>
+          </article>
+          <article class="index-card">
+            <span>创业板指</span>
+            <strong id="cyIndex">--</strong>
+            <em id="cyChange">--</em>
+          </article>
+          <article class="index-card temperature-card">
+            <span>市场温度</span>
+            <strong id="temperatureValue">--</strong>
+            <div class="temperature-track"><div id="temperatureFill"></div></div>
+          </article>
+          </section>
+
+          <section class="panel sector-panel" id="sectors">
+          <div class="panel-head">
+            <div>
+              <span class="section-kicker">Hot Sectors</span>
+              <h2>热门板块</h2>
+            </div>
+            <strong id="sectorCount">0 条</strong>
+          </div>
+          <div class="sector-terminal">
+            <div class="sector-heatmap" id="sectorHeatmap"></div>
+            <div class="sector-table" id="sectorList"></div>
+          </div>
+          </section>
+
+          <section class="panel stock-panel" id="stocks">
+          <div class="panel-head">
+            <div>
+              <span class="section-kicker">Watchlist</span>
+              <h2>个股观察</h2>
+            </div>
+            <input id="stockSearch" type="search" placeholder="搜索股票/概念" aria-label="搜索股票或概念" />
+          </div>
+          <div class="stock-grid" id="stockGrid"></div>
+          </section>
+
+          <section class="panel risk-panel" id="risk">
+          <div class="panel-head">
+            <div>
+              <span class="section-kicker">Risk Control</span>
+              <h2>验证清单与风险</h2>
+            </div>
+          </div>
+          <div class="signal-risk-grid">
+            <div class="check-list" id="signalList"></div>
+            <div class="risk-box">
+              <h3>风险摘要</h3>
+              <ul id="riskList"></ul>
+            </div>
+          </div>
+          </section>
+        </div>
+
+        <aside class="right-rail">
+          <section class="panel compact-panel">
+            <div class="panel-head">
+              <div>
+                <span class="section-kicker">Important</span>
+                <h2>重要事件</h2>
+              </div>
+            </div>
+            <div class="important-list" id="importantList"></div>
+          </section>
+
+          <section class="panel compact-panel" id="calendar">
+            <div class="panel-head">
+              <div>
+                <span class="section-kicker">Calendar</span>
+                <h2>投资日历</h2>
+              </div>
+            </div>
+            <div class="calendar-list" id="calendarList"></div>
+          </section>
+
+          <section class="panel compact-panel social-panel" id="social">
+            <div class="panel-head">
+              <div>
+                <span class="section-kicker">Social Buzz</span>
+                <h2>抖音/小红书热议 Top5</h2>
+              </div>
+            </div>
+            <div class="source-pill" id="socialStatus">待接入</div>
+            <div class="social-list" id="socialList"></div>
+          </section>
+
+          <section class="panel compact-panel flash-panel" id="flash">
+            <div class="panel-head">
+              <div>
+                <span class="section-kicker">Flash Wire</span>
+                <h2>市场快讯</h2>
+              </div>
+              <select id="feedSelect" aria-label="资讯类型">
+                <option value="all">全部</option>
+                <option value="policy">政策</option>
+                <option value="company">公司</option>
+                <option value="industry">产业</option>
+                <option value="market">市场</option>
+              </select>
+            </div>
+            <div class="feed-list" id="feedList"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./data/daily.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
