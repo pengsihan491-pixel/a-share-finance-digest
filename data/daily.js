@@ -1,7 +1,7 @@
 window.__DAILY_DIGEST__ = {
-  "tradeDate": "2026-06-12",
+  "tradeDate": "2026-06-14",
   "status": "东方财富公开行情接口生成",
-  "lastUpdated": "2026-06-12 17:20",
+  "lastUpdated": "2026-06-14 17:26",
   "sourceLinks": [
     "https://push2.eastmoney.com/",
     "data/social-buzz.json"
@@ -190,7 +190,7 @@ window.__DAILY_DIGEST__ = {
   ],
   "feed": [
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "market",
       "source": "行情接口",
       "title": "主要指数更新",
@@ -198,7 +198,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "市场温度自动计算"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "industry",
       "source": "行业板块",
       "title": "钼涨幅居前",
@@ -206,7 +206,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "利好钼"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "industry",
       "source": "行业板块",
       "title": "铅锌涨幅居前",
@@ -214,7 +214,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "利好铅锌"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "industry",
       "source": "行业板块",
       "title": "铜涨幅居前",
@@ -222,7 +222,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "利好铜"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "industry",
       "source": "行业板块",
       "title": "诊断服务涨幅居前",
@@ -230,7 +230,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "利好诊断服务"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "market",
       "source": "概念板块",
       "title": "昨日打二板以上表现活跃",
@@ -238,7 +238,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "关注昨日打二板以上表现"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "market",
       "source": "概念板块",
       "title": "黄金概念活跃",
@@ -246,7 +246,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "关注黄金概念"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "market",
       "source": "概念板块",
       "title": "航天航空活跃",
@@ -254,7 +254,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "关注航天航空"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "market",
       "source": "概念板块",
       "title": "通用航空活跃",
@@ -262,7 +262,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "关注通用航空"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "company",
       "source": "涨幅榜",
       "title": "赛伦生物涨幅 +20.01%",
@@ -270,7 +270,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "需核验异动原因"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "company",
       "source": "涨幅榜",
       "title": "新莱福涨幅 +20.00%",
@@ -278,7 +278,7 @@ window.__DAILY_DIGEST__ = {
       "impact": "需核验异动原因"
     },
     {
-      "time": "17:20",
+      "time": "17:26",
       "type": "company",
       "source": "涨幅榜",
       "title": "赢时胜涨幅 +20.00%",
@@ -307,7 +307,7 @@ window.__DAILY_DIGEST__ = {
   ],
   "socialBuzz": {
     "status": "未接入抖音/小红书数据源",
-    "lastUpdated": "2026-06-12 17:20",
+    "lastUpdated": "2026-06-14 17:26",
     "source": "等待接入巨量算数/小红书数据服务/第三方舆情 API",
     "items": []
   }
