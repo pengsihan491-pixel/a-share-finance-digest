@@ -1,5 +1,5 @@
 window.__DAILY_DIGEST__ = {
-  "tradeDate": "2026-06-14",
+  "tradeDate": "2026-06-12",
   "status": "东方财富公开行情接口生成",
   "lastUpdated": "2026-06-14 17:26",
   "sourceLinks": [

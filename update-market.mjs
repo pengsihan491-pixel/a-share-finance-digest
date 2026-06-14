@@ -13,15 +13,17 @@ const urls = {
   indices: "https://push2.eastmoney.com/api/qt/ulist.np/get?fltt=2&fields=f12,f14,f2,f3,f4,f6,f104,f105,f106&secids=1.000001,0.399001,0.399006",
   industry: "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=5&po=1&np=1&fltt=2&fid=f3&fs=m:90+t:2&fields=f12,f14,f2,f3,f4,f6,f104,f105,f128,f140,f136",
   concept: "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=5&po=1&np=1&fltt=2&fid=f3&fs=m:90+t:3&fields=f12,f14,f2,f3,f4,f6,f104,f105,f128,f140,f136",
-  stocks: "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=5&po=1&np=1&fltt=2&fid=f3&fs=m:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23&fields=f12,f14,f2,f3,f4,f5,f6,f8,f9,f10,f15,f16,f17,f18"
+  stocks: "https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=5&po=1&np=1&fltt=2&fid=f3&fs=m:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23&fields=f12,f14,f2,f3,f4,f5,f6,f8,f9,f10,f15,f16,f17,f18",
+  lastTradeDay: "https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.000001&fields1=f1,f2,f3,f4,f5,f6&fields2=f51&klt=101&fqt=1&end=20500101&lmt=1"
 };
 
-const [indicesRaw, industryRaw, conceptRaw, stocksRaw, socialBuzz] = await Promise.all([
+const [indicesRaw, industryRaw, conceptRaw, stocksRaw, socialBuzz, lastTradeDate] = await Promise.all([
   fetchJson(urls.indices),
   fetchJson(urls.industry),
   fetchJson(urls.concept),
   fetchJson(urls.stocks),
-  loadSocialBuzz()
+  loadSocialBuzz(),
+  fetchLastTradeDate()
 ]);
 
 const indices = indicesRaw.data.diff;
@@ -29,12 +31,12 @@ const industry = industryRaw.data.diff;
 const concept = conceptRaw.data.diff;
 const stocks = stocksRaw.data.diff;
 
-const digest = buildDigest({ indices, industry, concept, stocks, socialBuzz });
+const digest = buildDigest({ indices, industry, concept, stocks, socialBuzz, tradeDate: lastTradeDate });
 await writeFile(join(dataDir, "daily.json"), `${JSON.stringify(digest, null, 2)}\n`, "utf8");
 await writeFile(join(dataDir, "daily.js"), `window.__DAILY_DIGEST__ = ${JSON.stringify(digest, null, 2)};\n`, "utf8");
 console.log(`Updated ${join(dataDir, "daily.json")}`);
 
-async function fetchJson(url) {
+async function fetchJson(url, validate = hasQuoteDiff) {
   try {
     const response = await fetch(url, {
       headers: {
@@ -43,14 +45,14 @@ async function fetchJson(url) {
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
     const data = await response.json();
-    if (data.rc !== 0 || !data.data?.diff) throw new Error(`Bad response: ${url}`);
+    if (!validate(data)) throw new Error(`Bad response: ${url}`);
     return data;
   } catch (error) {
-    return fetchJsonViaPowerShell(url, error);
+    return fetchJsonViaPowerShell(url, error, validate);
   }
 }
 
-async function fetchJsonViaPowerShell(url, originalError) {
+async function fetchJsonViaPowerShell(url, originalError, validate = hasQuoteDiff) {
   const candidates = process.platform === "win32" ? ["powershell.exe", "powershell", "pwsh"] : ["pwsh", "powershell"];
   const errors = [];
   const script = [
@@ -68,7 +70,7 @@ async function fetchJsonViaPowerShell(url, originalError) {
         maxBuffer: 20 * 1024 * 1024
       });
       const data = JSON.parse(stdout);
-      if (data.rc !== 0 || !data.data?.diff) throw new Error(`Bad PowerShell response: ${url}`);
+      if (!validate(data)) throw new Error(`Bad PowerShell response: ${url}`);
       return data;
     } catch (error) {
       errors.push(`${command}: ${error.message}${error.stderr ? ` ${error.stderr}` : ""}`);
@@ -76,6 +78,29 @@ async function fetchJsonViaPowerShell(url, originalError) {
   }
 
   throw new Error(`${originalError.message}; PowerShell fallback failed: ${errors.join(" | ")}`);
+}
+
+async function fetchLastTradeDate() {
+  try {
+    const data = await fetchJson(urls.lastTradeDay, hasKline);
+    return parseKlineTradeDate(data) || latestWeekdayText();
+  } catch {
+    return latestWeekdayText();
+  }
+}
+
+function hasQuoteDiff(data) {
+  return data.rc === 0 && Array.isArray(data.data?.diff);
+}
+
+function hasKline(data) {
+  return data.rc === 0 && Array.isArray(data.data?.klines) && data.data.klines.length > 0;
+}
+
+function parseKlineTradeDate(data) {
+  const line = data.data.klines.at(-1);
+  const date = String(line).split(",")[0];
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : "";
 }
 
 async function loadSocialBuzz() {
@@ -97,7 +122,7 @@ async function loadSocialBuzz() {
   }
 }
 
-function buildDigest({ indices, industry, concept, stocks, socialBuzz }) {
+function buildDigest({ indices, industry, concept, stocks, socialBuzz, tradeDate }) {
   const sh = byCode(indices, "000001");
   const sz = byCode(indices, "399001");
   const cy = byCode(indices, "399006");
@@ -110,7 +135,7 @@ function buildDigest({ indices, industry, concept, stocks, socialBuzz }) {
   const topConceptNames = concept.slice(0, 3).map((item) => item.f14).join("、");
 
   return {
-    tradeDate: todayText(),
+    tradeDate: tradeDate || latestWeekdayText(),
     status: "东方财富公开行情接口生成",
     lastUpdated: nowText(),
     sourceLinks: [
@@ -271,6 +296,26 @@ function todayText() {
     month: "2-digit",
     day: "2-digit"
   }).format(new Date()).replaceAll("/", "-");
+}
+
+function latestWeekdayText() {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(new Date()).map((part) => [part.type, part.value])
+  );
+  const date = new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day)));
+  const day = date.getUTCDay();
+  if (day === 0) date.setUTCDate(date.getUTCDate() - 2);
+  if (day === 6) date.setUTCDate(date.getUTCDate() - 1);
+  return [
+    date.getUTCFullYear(),
+    String(date.getUTCMonth() + 1).padStart(2, "0"),
+    String(date.getUTCDate()).padStart(2, "0")
+  ].join("-");
 }
 
 function nowText() {
