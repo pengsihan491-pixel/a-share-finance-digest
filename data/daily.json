@@ -1,7 +1,7 @@
 {
   "tradeDate": "2026-09-30",
   "status": "东方财富公开行情接口生成",
-  "lastUpdated": "2026-10-06 22:19",
+  "lastUpdated": "2026-10-07 22:38",
   "sourceLinks": [
     "https://push2.eastmoney.com/",
     "data/social-buzz.json"
@@ -190,7 +190,7 @@
   ],
   "feed": [
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "market",
       "source": "行情接口",
       "title": "主要指数更新",
@@ -198,7 +198,7 @@
       "impact": "市场温度自动计算"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "industry",
       "source": "行业板块",
       "title": "视频媒体涨幅居前",
@@ -206,7 +206,7 @@
       "impact": "利好视频媒体"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "industry",
       "source": "行业板块",
       "title": "医美耗材涨幅居前",
@@ -214,7 +214,7 @@
       "impact": "利好医美耗材"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "industry",
       "source": "行业板块",
       "title": "其他生物制品涨幅居前",
@@ -222,7 +222,7 @@
       "impact": "利好其他生物制品"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "industry",
       "source": "行业板块",
       "title": "疫苗涨幅居前",
@@ -230,7 +230,7 @@
       "impact": "利好疫苗"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "market",
       "source": "概念板块",
       "title": "重组蛋白活跃",
@@ -238,7 +238,7 @@
       "impact": "关注重组蛋白"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "market",
       "source": "概念板块",
       "title": "昨日连板_含一字活跃",
@@ -246,7 +246,7 @@
       "impact": "关注昨日连板_含一字"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "market",
       "source": "概念板块",
       "title": "CRO活跃",
@@ -254,7 +254,7 @@
       "impact": "关注CRO"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "market",
       "source": "概念板块",
       "title": "昨日连板活跃",
@@ -262,7 +262,7 @@
       "impact": "关注昨日连板"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "company",
       "source": "涨幅榜",
       "title": "N力勤涨幅 +206.59%",
@@ -270,7 +270,7 @@
       "impact": "需核验异动原因"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "company",
       "source": "涨幅榜",
       "title": "善水科技涨幅 +20.01%",
@@ -278,7 +278,7 @@
       "impact": "需核验异动原因"
     },
     {
-      "time": "22:19",
+      "time": "22:38",
       "type": "company",
       "source": "涨幅榜",
       "title": "康希诺涨幅 +20.00%",
@@ -307,7 +307,7 @@
   ],
   "socialBuzz": {
     "status": "未接入抖音/小红书数据源",
-    "lastUpdated": "2026-10-06 22:19",
+    "lastUpdated": "2026-10-07 22:37",
     "source": "等待接入巨量算数/小红书数据服务/第三方舆情 API",
     "items": []
   }
